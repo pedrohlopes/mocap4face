@@ -11,6 +11,32 @@ import {
 } from '@facemoji/mocap4face';
 import './styles/main.scss';
 
+// ES6 class
+class EasyHTTP {
+  
+    // Make an HTTP PUT Request
+    async put(url:any, data:any) {
+   
+     // Awaiting fetch which contains method,
+     // headers and content-type and body
+     const response = await fetch(url, {
+       method: 'POST',
+       
+       headers: {
+         'Content-type': 'application/json',
+         "Access-Control-Allow-Origin": "*"
+       },
+       body: JSON.stringify(data)
+     });
+       
+     // Awaiting response.json()
+     const resData = await response.json();
+   
+     // Return response data 
+     return resData;
+   }
+ }
+const http = new EasyHTTP;
 Logger.logLevel = LogLevel.Info; // Set LogLevel.Debug to increase logging verbosity when debugging
 const videoElement = document.getElementById('videoSource') as HTMLVideoElement;
 const webcamButton = document.getElementById('webcam')!;
@@ -29,7 +55,7 @@ function startTracking() {
 
     // Initialize the API and activate API key
     // Note that without an API key the SDK works only for a short period of time
-    FacemojiAPI.initialize('<YOUR KEY HERE>', context).then((activated) => {
+    FacemojiAPI.initialize('evz4ah5ztucl2g5lmqsnw2fszbnqqi5krovxclo6sshkflvlr52dgdy', context).then((activated) => {
         if (activated) {
             console.info('API successfully activated');
         } else {
@@ -104,11 +130,20 @@ function startTracking() {
             setFaceRectangleVisible(false);
             return; // No face found or video frame could not be processed
         }
-
+        else{
+            
+        }
+        var sendObj = {}
+            
         // Update UI
         for (const [name, value] of lastResult.blendshapes) {
             updateBlendshapeValue(name, value);
+            sendObj = {...sendObj, [name]:value}
         }
+        console.log("sent obj:" + JSON.stringify(sendObj));
+        http.put(
+            'http://localhost:12000',
+            sendObj)
 
         const rotationBlendshapes = faceRotationToBlendshapes(lastResult.rotationQuaternion);
         for (const [name, value] of rotationBlendshapes) {

@@ -7,4 +7,9 @@ module.exports = merge(common, {
         minimize: false,
     },
     devtool: 'eval-source-map',
+    resolve: {
+        fallback: {
+         "dgram": false, // do not include a polyfill for dgram,
+        },
+    }
 });

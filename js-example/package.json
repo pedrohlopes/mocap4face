@@ -11,7 +11,12 @@
   "author": "Facemoji",
   "license": "ISC",
   "dependencies": {
-    "@facemoji/mocap4face": "^0.2.0"
+    "@facemoji/mocap4face": "^0.2.0",
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "dgram": "^1.0.1",
+    "express": "^4.17.2",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0",
